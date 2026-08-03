@@ -1,0 +1,31 @@
+{
+  "greeting": "Hi, I'm Ally, your AI coach. What would you like to work on today?",
+  "keywords": [
+    {
+      "match": ["stress", "burnout", "tired", "overwhelmed"],
+      "reply": "That sounds heavy. Let's separate load from control: which part of this week is genuinely yours to decide, and which part was decided for you?"
+    },
+    {
+      "match": ["promotion", "raise", "salary", "career"],
+      "reply": "Before we talk tactics: what evidence would your skip-level need to see to consider it obvious? Let's list three artifacts you already have."
+    },
+    {
+      "match": ["feedback", "conversation", "conflict"],
+      "reply": "Try framing it as observation, impact, request. What is the single observation you are most confident about?"
+    },
+    {
+      "match": ["goal", "plan", "quarter", "okr"],
+      "reply": "Good. Pick one outcome you could measure on a Friday. What would the number be, and who else has to move for it to change?"
+    },
+    {
+      "match": ["session", "coach", "book", "schedule"],
+      "reply": "You can book a live session from the Coaches page. Want me to suggest what to bring to the first one?"
+    }
+  ],
+  "fallbacks": [
+    "Say more about that — what does it look like on a normal Tuesday?",
+    "What would 'better' look like in two weeks, concretely?",
+    "Interesting. What have you already tried, and what did it cost you?",
+    "Let's slow down: what is the actual decision you are avoiding here?"
+  ]
+}

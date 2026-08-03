@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AceUp Console — Book a session</title>
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" data-nav>ace<span>up</span></a>
+        <nav class="nav">
+          <a href="index.html" data-nav>Dashboard</a>
+          <a href="coaches.html" data-nav class="active">Coaches</a>
+          <a href="sessions.html" data-nav>My sessions</a>
+          <a href="chat.html" data-nav>AI coach</a>
+        </nav>
+        <div class="avatar" title="Alex Rivera">AR</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1 id="coach-name" data-testid="booking-coach">Loading…</h1>
+        <p class="muted" id="coach-meta"></p>
+      </div>
+
+      <div class="card">
+        <h2>Pick a day</h2>
+        <div class="day-strip" id="days"></div>
+
+        <h2>Available times</h2>
+        <div class="slot-grid" id="slots" data-testid="slot-grid"></div>
+        <p class="hint" style="margin-top: 12px">
+          Times shown are the coach's working hours.
+        </p>
+
+        <div style="margin-top: 16px">
+          <button class="btn" id="continue" data-testid="continue" disabled>
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <p class="seed-note" id="seed-note"></p>
+    </main>
+
+    <div class="modal-backdrop" id="confirm-modal">
+      <div class="modal" role="dialog" aria-labelledby="modal-title">
+        <h2 id="modal-title">Confirm your session</h2>
+        <p class="muted">You can reschedule up to 12 hours before it starts.</p>
+
+        <div class="summary" data-testid="summary">
+          <div><span>Coach</span><strong id="sum-coach"></strong></div>
+          <div><span>Date</span><strong id="sum-date" data-testid="sum-date"></strong></div>
+          <div><span>Time</span><strong id="sum-time" data-testid="sum-time"></strong></div>
+        </div>
+
+        <div class="field">
+          <label for="duration">Duration</label>
+          <select id="duration" data-testid="duration">
+            <option value="30">30 minutes</option>
+            <option value="60" selected>60 minutes</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="notes">What do you want to work on?</label>
+          <textarea id="notes" data-testid="notes"></textarea>
+          <p class="hint" id="notes-counter"></p>
+        </div>
+
+        <div class="field">
+          <label for="guest">Invite a guest (optional)</label>
+          <input type="email" id="guest" data-testid="guest-email" placeholder="name@company.com" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="modal-cancel">Back</button>
+          <button class="btn" id="modal-confirm" data-testid="confirm-booking">
+            Confirm booking
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/seed.js"></script>
+    <script src="assets/js/flags.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        var UI = window.AceUpUI;
+        var Api = window.AceUpApi;
+        var coach = null;
+        var days = [];
+        var selectedDay = null;
+        var selectedHour = null;
+
+        function renderDays() {
+          UI.qs('#days').innerHTML = days
+            .map(function (d) {
+              return (
+                '<button class="day' +
+                (d === selectedDay ? ' selected' : '') +
+                '" data-day="' +
+                d +
+                '">' +
+                UI.fmtDayShort(d) +
+                '<small>' +
+                UI.fmtDateUS(d).slice(0, 5) +
+                '</small></button>'
+              );
+            })
+            .join('');
+
+          UI.qsa('#days .day').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              selectedDay = btn.getAttribute('data-day');
+              selectedHour = null;
+              UI.qs('#continue').disabled = true;
+              renderDays();
+              loadSlots();
+            });
+          });
+        }
+
+        function loadSlots() {
+          UI.qs('#slots').innerHTML = '';
+          return Api.slots(coach.id, selectedDay).then(function (slots) {
+            UI.qs('#slots').innerHTML = slots
+              .map(function (s) {
+                return (
+                  '<div class="slot' +
+                  (s.available ? '' : ' taken') +
+                  '" data-testid="slot" data-hour="' +
+                  s.hour +
+                  '" data-available="' +
+                  s.available +
+                  '">' +
+                  UI.fmtHour(s.hour) +
+                  '</div>'
+                );
+              })
+              .join('');
+
+            UI.qsa('#slots .slot').forEach(function (el) {
+              el.addEventListener('click', function () {
+                if (el.getAttribute('data-available') !== 'true') return;
+                UI.qsa('#slots .slot').forEach(function (other) {
+                  other.classList.remove('selected');
+                });
+                el.classList.add('selected');
+                selectedHour = parseInt(el.getAttribute('data-hour'), 10);
+                UI.qs('#continue').disabled = false;
+              });
+            });
+          });
+        }
+
+        function openConfirm() {
+          UI.qs('#sum-coach').textContent = coach.name;
+          UI.qs('#sum-date').textContent = UI.fmtDateUS(selectedDay);
+          UI.qs('#sum-time').textContent = UI.fmtHour(selectedHour);
+          UI.openModal('confirm-modal');
+        }
+
+        function bookNow() {
+          var btn = UI.qs('#modal-confirm');
+
+          if (!window.Fx('fx_a2')) {
+            btn.disabled = true;
+            btn.textContent = 'Booking…';
+          }
+
+          var payload = {
+            coachId: coach.id,
+            coachName: coach.name,
+            tzOffset: coach.tzOffset,
+            tzLabel: coach.tzLabel,
+            date: selectedDay,
+            hour: selectedHour,
+            duration: parseInt(UI.qs('#duration').value, 10),
+            notes: UI.qs('#notes').value,
+            guestEmail: UI.qs('#guest').value.trim()
+          };
+
+          Api.book(payload)
+            .then(function () {
+              UI.closeModal('confirm-modal');
+              UI.toast('Session booked!');
+              selectedHour = null;
+              UI.qs('#continue').disabled = true;
+              loadSlots();
+            })
+            .catch(function (err) {
+              if (err.code === 'SERVER_ERROR' && window.Fx('fx_b3')) {
+                UI.closeModal('confirm-modal');
+                UI.toast('Session booked!');
+                return;
+              }
+              if (err.code === 'VALIDATION') {
+                UI.toast(err.message, true);
+                return;
+              }
+              UI.toast('Something went wrong', true);
+            })
+            .then(function () {
+              btn.disabled = false;
+              btn.textContent = 'Confirm booking';
+            });
+        }
+
+        function initNotes() {
+          var notes = UI.qs('#notes');
+          var counter = UI.qs('#notes-counter');
+          if (window.Fx('fx_a5')) {
+            counter.textContent = '';
+            return;
+          }
+          notes.setAttribute('maxlength', String(Api.NOTES_LIMIT));
+          function paint() {
+            counter.textContent = notes.value.length + '/' + Api.NOTES_LIMIT;
+          }
+          notes.addEventListener('input', paint);
+          paint();
+        }
+
+        UI.qs('#continue').addEventListener('click', openConfirm);
+        UI.qs('#modal-cancel').addEventListener('click', function () {
+          UI.closeModal('confirm-modal');
+        });
+        UI.qs('#modal-confirm').addEventListener('click', bookNow);
+
+        Api.coach(UI.param('coach') || 'c1')
+          .then(function (found) {
+            coach = found;
+            UI.qs('#coach-name').textContent = coach.name;
+            UI.qs('#coach-meta').textContent =
+              coach.title + ' · ' + coach.specialty + ' · ' + coach.rating + ' ★';
+            initNotes();
+            return Api.days();
+          })
+          .then(function (list) {
+            days = list;
+            selectedDay = days[0];
+            renderDays();
+            return loadSlots();
+          });
+      })();
+    </script>
+  </body>
+</html>

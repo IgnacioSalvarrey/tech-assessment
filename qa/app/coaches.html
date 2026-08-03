@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AceUp Console — Coaches</title>
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" data-nav>ace<span>up</span></a>
+        <nav class="nav">
+          <a href="index.html" data-nav>Dashboard</a>
+          <a href="coaches.html" data-nav class="active">Coaches</a>
+          <a href="sessions.html" data-nav>My sessions</a>
+          <a href="chat.html" data-nav>AI coach</a>
+        </nav>
+        <div class="avatar" title="Alex Rivera">AR</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1>Find a coach</h1>
+        <p class="muted">Matched to your program: Leadership &amp; Communication.</p>
+      </div>
+
+      <div class="filters">
+        <div class="field">
+          <label for="q">Search</label>
+          <input type="text" id="q" placeholder="Name or keyword" data-testid="filter-search" />
+        </div>
+        <div class="field">
+          <label for="specialty">Specialty</label>
+          <select id="specialty" data-testid="filter-specialty">
+            <option value="">All specialties</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="language">Language</label>
+          <select id="language" data-testid="filter-language">
+            <option value="">All languages</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="rating">Top rated</option>
+            <option value="sessions">Most sessions</option>
+            <option value="name">Name</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="muted" id="result-count" data-testid="result-count"></p>
+
+      <div class="coach-list" id="list"></div>
+
+      <div class="pager">
+        <button class="btn btn-ghost btn-sm" id="prev">Prev</button>
+        <span class="muted" id="page-label" data-testid="page-label"></span>
+        <button class="btn btn-ghost btn-sm" id="next">Next</button>
+      </div>
+
+      <p class="seed-note" id="seed-note"></p>
+    </main>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/seed.js"></script>
+    <script src="assets/js/flags.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        var UI = window.AceUpUI;
+        var PAGE_SIZE = 4;
+        var all = [];
+        var state = { q: '', specialty: '', language: '', sort: 'rating', page: 1 };
+
+        function filtered() {
+          return all.filter(function (c) {
+            var q = state.q.trim().toLowerCase();
+            var matchesQ =
+              !q ||
+              c.name.toLowerCase().indexOf(q) !== -1 ||
+              c.bio.toLowerCase().indexOf(q) !== -1 ||
+              c.specialty.toLowerCase().indexOf(q) !== -1;
+            var matchesSpecialty = !state.specialty || c.specialty === state.specialty;
+            var matchesLanguage =
+              !state.language || c.languages.indexOf(state.language) !== -1;
+            return matchesQ && matchesSpecialty && matchesLanguage;
+          });
+        }
+
+        function sorted(list) {
+          var copy = list.slice();
+          if (state.sort === 'rating') {
+            copy.sort(function (a, b) {
+              return b.rating - a.rating;
+            });
+          } else if (state.sort === 'sessions') {
+            copy.sort(function (a, b) {
+              return b.sessions - a.sessions;
+            });
+          } else {
+            copy.sort(function (a, b) {
+              return a.name.localeCompare(b.name);
+            });
+          }
+          return copy;
+        }
+
+        function cardHtml(c) {
+          return (
+            '<div class="card coach" data-testid="coach-card" data-coach="' +
+            c.id +
+            '">' +
+            '<div class="coach-avatar">' +
+            UI.initials(c.name) +
+            '</div>' +
+            '<div style="flex:1">' +
+            '<h3 data-testid="coach-name">' +
+            c.name +
+            '</h3>' +
+            '<p class="muted" style="margin:2px 0 6px">' +
+            c.title +
+            ' · ' +
+            c.rating +
+            ' ★ (' +
+            c.sessions +
+            ')</p>' +
+            '<p><span class="tag">' +
+            c.specialty +
+            '</span>' +
+            c.languages
+              .map(function (l) {
+                return '<span class="tag">' + l + '</span>';
+              })
+              .join('') +
+            '</p>' +
+            '<p class="hint">' +
+            c.bio +
+            '</p>' +
+            '<button class="btn btn-sm book" data-coach="' +
+            c.id +
+            '">Book</button>' +
+            '</div>' +
+            '</div>'
+          );
+        }
+
+        function render() {
+          var matches = sorted(filtered());
+          var countable = window.Fx('fx_b1') ? all.length : matches.length;
+          var pages = Math.max(1, Math.ceil(countable / PAGE_SIZE));
+          if (state.page > pages) state.page = pages;
+
+          var source = matches;
+          if (window.Fx('fx_b1') && state.page > 1) {
+            source = sorted(all);
+          }
+
+          var start = (state.page - 1) * PAGE_SIZE;
+          var pageItems = source.slice(start, start + PAGE_SIZE);
+
+          UI.qs('#result-count').textContent = matches.length + ' coaches found';
+          UI.qs('#page-label').textContent = 'Page ' + state.page + ' of ' + pages;
+          UI.qs('#list').innerHTML = pageItems.map(cardHtml).join('');
+          UI.qs('#prev').disabled = state.page === 1;
+          UI.qs('#next').disabled = state.page === pages;
+
+          UI.qsa('.book').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              UI.go('booking.html?coach=' + btn.getAttribute('data-coach'));
+            });
+          });
+        }
+
+        function bindFilter(id, key) {
+          UI.qs('#' + id).addEventListener(
+            id === 'q' ? 'input' : 'change',
+            function (e) {
+              state[key] = e.target.value;
+              state.page = 1;
+              render();
+            }
+          );
+        }
+
+        window.AceUpApi.coaches().then(function (list) {
+          all = list;
+
+          var specialties = [];
+          var languages = [];
+          list.forEach(function (c) {
+            if (specialties.indexOf(c.specialty) === -1) specialties.push(c.specialty);
+            c.languages.forEach(function (l) {
+              if (languages.indexOf(l) === -1) languages.push(l);
+            });
+          });
+          specialties.sort();
+          languages.sort();
+
+          UI.qs('#specialty').innerHTML +=
+            specialties
+              .map(function (s) {
+                return '<option value="' + s + '">' + s + '</option>';
+              })
+              .join('');
+          UI.qs('#language').innerHTML +=
+            languages
+              .map(function (l) {
+                return '<option value="' + l + '">' + l + '</option>';
+              })
+              .join('');
+
+          bindFilter('q', 'q');
+          bindFilter('specialty', 'specialty');
+          bindFilter('language', 'language');
+          bindFilter('sort', 'sort');
+
+          UI.qs('#prev').addEventListener('click', function () {
+            if (state.page > 1) state.page--;
+            render();
+          });
+          UI.qs('#next').addEventListener('click', function () {
+            state.page++;
+            render();
+          });
+
+          render();
+        });
+      })();
+    </script>
+  </body>
+</html>

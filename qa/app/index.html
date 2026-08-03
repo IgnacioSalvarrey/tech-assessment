@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AceUp Console — Dashboard</title>
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" data-nav>ace<span>up</span></a>
+        <nav class="nav">
+          <a href="index.html" data-nav class="active">Dashboard</a>
+          <a href="coaches.html" data-nav>Coaches</a>
+          <a href="sessions.html" data-nav>My sessions</a>
+          <a href="chat.html" data-nav>AI coach</a>
+        </nav>
+        <div class="avatar" title="Alex Rivera">AR</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1>Good morning, Alex</h1>
+        <p class="muted">Here is where your coaching program stands.</p>
+      </div>
+
+      <section class="grid grid-3" style="margin-bottom: 24px">
+        <div class="card">
+          <div class="stat-label">Upcoming sessions</div>
+          <div class="stat" data-testid="stat-upcoming">0</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Sessions completed</div>
+          <div class="stat">8</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Program progress</div>
+          <div class="stat">62%</div>
+        </div>
+      </section>
+
+      <section class="grid grid-2">
+        <div class="card">
+          <h2>Next session</h2>
+          <div id="next-session" data-testid="next-session">
+            <p class="muted">Loading…</p>
+          </div>
+          <div style="margin-top: 16px">
+            <button class="btn" id="cta-book">Book a session</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Ally suggests</h2>
+          <p class="muted">
+            You mentioned delegation twice last month. Want to turn that into a goal
+            before your next session?
+          </p>
+          <button class="btn btn-ghost" id="cta-chat">Talk to Ally</button>
+        </div>
+      </section>
+
+      <p class="seed-note" id="seed-note"></p>
+    </main>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/seed.js"></script>
+    <script src="assets/js/flags.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        var UI = window.AceUpUI;
+
+        function renderStat() {
+          UI.qs('[data-testid="stat-upcoming"]').textContent =
+            window.AceUpStore.cachedUpcoming();
+        }
+
+        function renderNext() {
+          var upcoming = window.AceUpStore.sessions()
+            .filter(function (s) {
+              return s.status === 'confirmed';
+            })
+            .sort(function (a, b) {
+              return Date.parse(a.startsAt) - Date.parse(b.startsAt);
+            });
+
+          var host = UI.qs('#next-session');
+          if (!upcoming.length) {
+            host.innerHTML =
+              '<p class="muted">No sessions booked yet. Pick a coach to get started.</p>';
+            return;
+          }
+
+          var s = upcoming[0];
+          host.innerHTML =
+            '<p class="session-when" data-testid="next-session-when">' +
+            UI.fmtDateUS(s.date) +
+            ' at ' +
+            UI.sessionTime(s) +
+            '</p>' +
+            '<p class="muted">' +
+            s.duration +
+            ' min with ' +
+            s.coachName +
+            '</p>' +
+            '<p class="hint">Reference ' +
+            s.id +
+            '</p>';
+        }
+
+        UI.qs('#cta-book').addEventListener('click', function () {
+          UI.go('coaches.html');
+        });
+
+        UI.qs('#cta-chat').addEventListener('click', function () {
+          UI.go('chat.html');
+        });
+
+        renderStat();
+        renderNext();
+      })();
+    </script>
+  </body>
+</html>

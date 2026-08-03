@@ -1,0 +1,28 @@
+services:
+  app:
+    image: nginx:1.27-alpine
+    container_name: aceup-qa-app
+    ports:
+      - "4173:80"
+    volumes:
+      - ./app:/usr/share/nginx/html:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/index.html"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  cypress:
+    image: cypress/included:15.8.1
+    # only started explicitly (make test), never by `docker compose up`
+    profiles: ["test"]
+    depends_on:
+      app:
+        condition: service_healthy
+    working_dir: /e2e
+    volumes:
+      - ./homework/starter:/e2e
+    environment:
+      # inside the compose network the app is reachable as http://app
+      CYPRESS_baseUrl: http://app
+      CYPRESS_seed: ${SEED:-1000}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AceUp Console — My sessions</title>
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" data-nav>ace<span>up</span></a>
+        <nav class="nav">
+          <a href="index.html" data-nav>Dashboard</a>
+          <a href="coaches.html" data-nav>Coaches</a>
+          <a href="sessions.html" data-nav class="active">My sessions</a>
+          <a href="chat.html" data-nav>AI coach</a>
+        </nav>
+        <div class="avatar" title="Alex Rivera">AR</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1>My sessions</h1>
+        <p class="muted">Upcoming and past coaching sessions.</p>
+      </div>
+
+      <div class="card">
+        <div id="list" data-testid="session-list"></div>
+      </div>
+
+      <p class="seed-note" id="seed-note"></p>
+    </main>
+
+    <div class="modal-backdrop" id="reschedule-modal">
+      <div class="modal" role="dialog" aria-labelledby="resched-title">
+        <h2 id="resched-title">Reschedule session</h2>
+        <p class="muted" id="resched-coach"></p>
+
+        <div class="field">
+          <label for="resched-day">New day</label>
+          <select id="resched-day" data-testid="resched-day"></select>
+        </div>
+
+        <div class="field">
+          <label for="resched-hour">New time</label>
+          <select id="resched-hour" data-testid="resched-hour"></select>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="resched-back">Back</button>
+          <button class="btn" id="resched-save" data-testid="resched-save">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/seed.js"></script>
+    <script src="assets/js/flags.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        var UI = window.AceUpUI;
+        var Api = window.AceUpApi;
+        var editing = null;
+
+        function rowHtml(s) {
+          return (
+            '<div class="session" data-testid="session-row" data-id="' +
+            s.id +
+            '" data-status="' +
+            s.status +
+            '">' +
+            '<div>' +
+            '<p class="session-when" data-testid="session-when">' +
+            UI.fmtDateEU(UI.sessionDate(s)) +
+            ' · ' +
+            UI.sessionTime(s) +
+            '</p>' +
+            '<p class="muted">' +
+            s.coachName +
+            ' · <span data-testid="session-duration">' +
+            s.duration +
+            '</span> min</p>' +
+            (s.notes ? '<p class="hint">' + s.notes + '</p>' : '') +
+            '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center">' +
+            '<span class="badge badge-' +
+            s.status +
+            '" data-testid="session-status">' +
+            s.status +
+            '</span>' +
+            (s.status === 'confirmed'
+              ? '<button class="btn btn-ghost btn-sm resched" data-id="' +
+                s.id +
+                '">Reschedule</button>' +
+                '<button class="btn btn-danger btn-sm cancel" data-id="' +
+                s.id +
+                '">Cancel</button>'
+              : '') +
+            '</div>' +
+            '</div>'
+          );
+        }
+
+        function render() {
+          var sessions = window.AceUpStore.sessions().sort(function (a, b) {
+            return Date.parse(a.startsAt) - Date.parse(b.startsAt);
+          });
+
+          var host = UI.qs('#list');
+          if (!sessions.length) {
+            host.innerHTML =
+              '<p class="muted">Nothing booked yet. <a href="coaches.html" data-nav>Find a coach</a>.</p>';
+            UI.linkSeed();
+            return;
+          }
+
+          host.innerHTML = sessions.map(rowHtml).join('');
+
+          UI.qsa('.cancel').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              Api.cancel(btn.getAttribute('data-id')).then(function () {
+                UI.toast('Session cancelled');
+                render();
+              });
+            });
+          });
+
+          UI.qsa('.resched').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              openReschedule(btn.getAttribute('data-id'));
+            });
+          });
+        }
+
+        function openReschedule(id) {
+          editing = window.AceUpStore.session(id);
+          UI.qs('#resched-coach').textContent = 'With ' + editing.coachName;
+
+          Api.days().then(function (days) {
+            UI.qs('#resched-day').innerHTML = days
+              .map(function (d) {
+                return '<option value="' + d + '">' + UI.fmtDateEU(d) + '</option>';
+              })
+              .join('');
+            loadHours();
+            UI.openModal('reschedule-modal');
+          });
+        }
+
+        function loadHours() {
+          var day = UI.qs('#resched-day').value;
+          UI.qs('#resched-hour').innerHTML = '';
+          return Api.slots(editing.coachId, day).then(function (slots) {
+            UI.qs('#resched-hour').innerHTML = slots
+              .filter(function (s) {
+                return s.available;
+              })
+              .map(function (s) {
+                return '<option value="' + s.hour + '">' + UI.fmtHour(s.hour) + '</option>';
+              })
+              .join('');
+          });
+        }
+
+        UI.qs('#resched-day').addEventListener('change', loadHours);
+        UI.qs('#resched-back').addEventListener('click', function () {
+          UI.closeModal('reschedule-modal');
+        });
+
+        UI.qs('#resched-save').addEventListener('click', function () {
+          var day = UI.qs('#resched-day').value;
+          var hour = parseInt(UI.qs('#resched-hour').value, 10);
+          Api.reschedule(editing.id, day, hour)
+            .then(function () {
+              UI.closeModal('reschedule-modal');
+              UI.toast('Session updated');
+              render();
+            })
+            .catch(function () {
+              UI.toast('Something went wrong', true);
+            });
+        });
+
+        render();
+      })();
+    </script>
+  </body>
+</html>

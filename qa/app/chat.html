@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AceUp Console — AI coach</title>
+    <link rel="stylesheet" href="assets/css/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" data-nav>ace<span>up</span></a>
+        <nav class="nav">
+          <a href="index.html" data-nav>Dashboard</a>
+          <a href="coaches.html" data-nav>Coaches</a>
+          <a href="sessions.html" data-nav>My sessions</a>
+          <a href="chat.html" data-nav class="active">AI coach</a>
+        </nav>
+        <div class="avatar" title="Alex Rivera">AR</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1>Ally, your AI coach</h1>
+        <p class="muted">Available 24/7 between live sessions.</p>
+      </div>
+
+      <div class="card chat">
+        <div class="chat-log" id="log" data-testid="chat-log"></div>
+        <div class="typing" id="typing" data-testid="typing">Ally is typing…</div>
+
+        <div class="chat-form">
+          <input
+            type="text"
+            id="message"
+            data-testid="chat-input"
+            placeholder="Ask Ally something…"
+            autocomplete="off"
+          />
+          <button class="icon-btn" id="send" data-testid="chat-send">&#10148;</button>
+          <button class="btn btn-ghost btn-sm" id="regen">Regenerate</button>
+        </div>
+      </div>
+
+      <p class="seed-note" id="seed-note"></p>
+    </main>
+
+    <div id="toast"></div>
+
+    <script src="assets/js/seed.js"></script>
+    <script src="assets/js/flags.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+      (function () {
+        var UI = window.AceUpUI;
+        var Api = window.AceUpApi;
+        var lastUserMessage = '';
+
+        function bubble(text, who) {
+          var el = document.createElement('div');
+          el.className = 'bubble ' + who;
+          el.setAttribute('data-testid', 'bubble-' + who);
+          el.textContent = text;
+          UI.qs('#log').appendChild(el);
+          UI.qs('#log').scrollTop = UI.qs('#log').scrollHeight;
+        }
+
+        function busy(on) {
+          UI.qs('#typing').className = on ? 'typing show' : 'typing';
+          UI.qs('#message').disabled = on;
+          UI.qs('#send').disabled = on;
+        }
+
+        function ask(text) {
+          lastUserMessage = text;
+          bubble(text, 'user');
+          UI.qs('#message').value = '';
+          busy(true);
+
+          Api.chat(text)
+            .then(function (reply) {
+              busy(false);
+              bubble(reply, 'ally');
+            })
+            .catch(function () {
+              if (window.Fx('fx_b4')) return;
+              busy(false);
+              bubble("Sorry, I couldn't answer that. Please try again.", 'ally');
+              UI.toast('Something went wrong', true);
+            });
+        }
+
+        function submit() {
+          var raw = UI.qs('#message').value;
+          var accepted = window.Fx('fx_a4') ? raw.length > 0 : raw.trim().length > 0;
+          if (!accepted) return;
+          ask(raw);
+        }
+
+        UI.qs('#send').addEventListener('click', submit);
+        UI.qs('#message').addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') submit();
+        });
+        UI.qs('#regen').addEventListener('click', function () {
+          if (!lastUserMessage) return;
+          ask(lastUserMessage);
+        });
+
+        Api.greeting().then(function (text) {
+          bubble(text, 'ally');
+        });
+      })();
+    </script>
+  </body>
+</html>
