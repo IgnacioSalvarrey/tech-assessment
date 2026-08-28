@@ -19,25 +19,34 @@ exploratory-testing + reporting brief, and a Cypress automation brief. Candidate
 | `homework-evaluation/criteria.md` | **no** | rubric, weights, grading procedure |
 | `homework-evaluation/scorecard.md` | **no** | fill-in scorecard |
 | `homework-evaluation/MANUAL-VERIFICATION.md` | **no** | pre-send checklist |
+| `tools/bundle.sh` | **no** | one-candidate bundler: stamps the seed in, records the assignment |
 | `homework-evaluation/reference/` | **no** | verification harnesses: `logic-harness.mjs` (plain `node`) and `verify.internal.cy.js` (Cypress) |
 
 ## Sending it out
 
-1. Pick a seed for the candidate (see `homework-evaluation/bug-catalog.md` for the
-   seed → defect table) and record it in a private `seeds.md` — copy `seeds.example.md`.
-2. If `app/` changed since the last hand-out, verify it:
-   ```bash
-   node homework-evaluation/reference/logic-harness.mjs   # 24/24 expected
-   ```
-   then walk the browser-only rows of `homework-evaluation/MANUAL-VERIFICATION.md`.
-3. Bundle **only** the candidate-facing files:
-   ```bash
-   cd tech-assessment/qa
-   zip -r ../aceup-qa-homework.zip \
-     START-HERE.md Makefile docker-compose.yml app homework \
-     -x '*/node_modules/*' '*/.DS_Store' '*/cypress/screenshots/*' '*/cypress/videos/*'
-   ```
-4. In the email: the seed, the timebox (1 day), the deliverables list, and the deadline.
+```bash
+make bundle SEED=2417 CANDIDATE=christiam
+```
+
+That is the whole hand-out path. It refuses to run without both arguments, refuses seed
+`1000` (the app default — a candidate with no seed lands on it silently), refuses a seed
+already present in `seeds.md`, stamps the seed into `assignment.md`, `START-HERE.md`, the
+`Makefile`, `docker-compose.yml` and the starter scaffold, appends the candidate's row to
+`seeds.md` (creating it from `seeds.example.md` on first use), and writes the zip.
+
+Because the seed is stamped in, a bare `make start` is correct for that candidate — but
+**still put the seed in the email**, and state it in the deliverables ask.
+
+Pick the seed from the table in `homework-evaluation/bug-catalog.md`. If `app/` changed
+since the last hand-out, verify it first:
+
+```bash
+node homework-evaluation/reference/logic-harness.mjs   # 24/24 expected
+```
+
+then walk the browser-only rows of `homework-evaluation/MANUAL-VERIFICATION.md`.
+
+In the email: the seed, the timebox (1 day), the deliverables list, and the deadline.
 
 ## Grading
 
