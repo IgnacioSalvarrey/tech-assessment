@@ -37,3 +37,18 @@ When the search returns only one coach, the results counter displays "1 coaches 
 
 <img width="1030" height="430" alt="image" src="https://github.com/user-attachments/assets/252dbea7-61ee-452d-aef2-42315e0d2a04" />
 
+## UX-03 — Unclear optional field
+
+**Area:** Session booking
+
+**Finding:**  
+The "What do you want to work on?" field can be left empty and the user can still confirm the session, but the field is not marked as optional.
+The "Invite a guest" field is explicitly labeled as optional, while "What do you want to work on?" can also be left empty without preventing the booking, but it is not labeled as optional.
+
+**Impact:**  
+Users may be unsure whether the field is required to complete the booking.
+
+**Recommendation:**  
+Clearly indicate whether the field is required or optional. If it is optional, label it consistently with "Invite a guest (optional)".
+
+<img width="455" height="561" alt="image" src="https://github.com/user-attachments/assets/7cefbf41-5cdb-4196-9d3f-da871a0b9460" />
