@@ -92,7 +92,7 @@ The modals do not provide an "X" button to close them and clicking outside the m
 Users may not have an obvious or convenient way to exit the modal without completing or cancelling the current action.
 
 **Recommendation:**
-Provide a visible close button and consider allowing users to close the modal by clicking outside it or pressing the Escape key.
+Provide a visible close button and allow users to close the modal using the Escape key or clicking putside it.
 
 <img width="1053" height="631" alt="image" src="https://github.com/user-attachments/assets/32253d54-cced-4502-a2d2-5054de61b6fe" />
 
