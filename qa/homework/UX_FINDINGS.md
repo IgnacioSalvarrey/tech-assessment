@@ -91,6 +91,19 @@ The modals do not provide an "X" button to close them and clicking outside the m
 **Impact:**
 Users may not have an obvious or convenient way to exit the modal without completing or cancelling the current action.
 
+## UX-07 — Available time slots cannot be reached with Tab
+
+**Area:** Session booking
+
+**Finding:**
+When booking a session, the available time slots cannot be reached or selected using the Tab key.
+
+**Impact:**
+Users who navigate the application using only the keyboard may not be able to select an available time slot and complete the booking.
+
+**Recommendation:**
+Make available time slots keyboard accessible and ensure they can receive focus and be selected using standard keyboard navigation.
+
 **Recommendation:**
 Provide a visible close button and consider allowing users to close the modal by clicking outside it or pressing the Escape key.
 
