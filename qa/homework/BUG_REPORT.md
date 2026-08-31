@@ -281,7 +281,7 @@ The complete text entered by the user should be displayed in the session details
 
 ### Evidence
 
-
+[Evidence: BUG-09-notes-truncated-in-my-sessions.mov](./evidence/BUG-09-notes-truncated-in-my-sessions.mov)
 
 
 
