@@ -84,7 +84,8 @@ After cancelling the only upcoming session, the Dashboard continues to display *
 
 When a new upcoming session is created, the Dashboard correctly displays **1 Upcoming Session**, indicating that the count does not accurately reflect the current session state after cancellation.
 
+
 ### Evidence
 
-
+[BUG-02 — Upcoming Sessions count](./evidence/BUG-02-upcoming-sessions.mov)
 
