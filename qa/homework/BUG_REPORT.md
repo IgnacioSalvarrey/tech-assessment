@@ -260,6 +260,32 @@ The application should prevent the user from booking overlapping sessions or cle
 
 <img width="1010" height="222" alt="image" src="https://github.com/user-attachments/assets/09d4f819-a9f7-4b4c-89d3-615a10cd6832" />
 
+## BUG-09 — Notes are truncated in My Sessions
+
+**Severity:** Medium **Priority:** Medium
+
+### Steps to reproduce:**
+
+1. Start a new session booking.
+2. Select an available coach, date and time.
+3. Enter text in the **"What do you want to work on?"** field.
+4. Complete the booking.
+5. Open **My Sessions**.
+6. Review the session details.
+
+### Actual result
+The text displayed for the session does not contain all of the characters entered during booking.
+
+### Expected result
+The complete text entered by the user should be displayed in the session details, or the application should clearly indicate if the field has a character limit.
+
+### Evidence
+
+
+
+
+
+
 
 
 
