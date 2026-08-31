@@ -79,4 +79,5 @@ Users may be unsure whether the search was processed correctly or whether there 
 **Recommendation:**
 Display a clear empty-state message, such as "No coaches found matching your search. Try adjusting your filters."
 
+<img width="1128" height="377" alt="image" src="https://github.com/user-attachments/assets/d40fb1c0-f18c-41ef-805b-b8824fe8396f" />
 
