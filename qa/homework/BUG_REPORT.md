@@ -179,6 +179,30 @@ NaN/NaN/NaN · NaN:00 AM
 
 <img width="1048" height="162" alt="image" src="https://github.com/user-attachments/assets/7d2d0792-9998-4d23-86dc-eb7b594e3a28" />
 
+## Bug #6 – AI Coach accepts empty messages
 
+**Severity:** Medium
+**Priority:** Medium
+
+### Steps to Reproduce
+
+1. Go to **AI Coach**.
+2. Leave the message input empty or enter only spaces.
+3. Click **Send**.
+4. Observe the conversation.
+
+### Expected Result
+
+The system should prevent the user from sending an empty message. The **Send** action should remain disabled or a validation message should be displayed.
+
+### Actual Result
+
+The AI Coach allows the user to send an empty message. The empty message is displayed in the conversation and **Ally generates a response**.
+
+The generated response can also differ between attempts when sending an empty message.
+
+### Evidence
+
+<img width="1733" height="902" alt="image" src="https://github.com/user-attachments/assets/193924ac-9bb5-4e19-ad7a-4bd381827038" />
 
 
