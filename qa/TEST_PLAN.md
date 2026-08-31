@@ -41,7 +41,7 @@ During exploratory testing, I identified several issues, including:
 * Inconsistent date formats between pages.
 * Possible timezone inconsistencies in displayed session times.
 * `NaN/NaN/NaN · NaN:00 AM` appearing in certain situations.
-* The rescheduling flow allowing confirmation without selecting a valid option in certain situations.
+* The rescheduling flow allowing confirmation without selecting a valid option.
 * The AI Coach accepting an empty message under certain conditions.
 
 These findings were documented separately.
