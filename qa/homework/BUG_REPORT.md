@@ -283,6 +283,32 @@ The complete text entered by the user should be displayed in the session details
 
 [Evidence: BUG-09-notes-truncated-in-my-sessions.mov](./evidence/BUG-09-notes-truncated-in-my-sessions.mov)
 
+## BUG-10 — Double booking when confirming a session twice
+
+**Severity:** High **Priority:** High
+
+**Description:**
+Clicking the "Confirm booking" button twice quickly can create two sessions for the same booking.
+
+###Steps to reproduce
+
+1. Start a new session booking.
+2. Select an available coach, date and time.
+3. Click **Continue**.
+4. On the confirmation screen, click **Confirm booking** twice quickly.
+5. Open **My Sessions**.
+
+### Actual result
+Two sessions are created for the same coach, date and time.
+
+### Expected result
+Only one session should be created. The application should prevent duplicate submissions when the booking is being processed.
+
+### Evidence
+
+
+
+
 
 
 
