@@ -52,3 +52,17 @@ Users may be unsure whether the field is required to complete the booking.
 Clearly indicate whether the field is required or optional. If it is optional, label it consistently with "Invite a guest (optional)".
 
 <img width="455" height="561" alt="image" src="https://github.com/user-attachments/assets/7cefbf41-5cdb-4196-9d3f-da871a0b9460" />
+
+## UX-04 — Session can be cancelled without confirmation
+
+**Area:** My Sessions
+
+**Finding:**
+A confirmed session can be cancelled immediately by clicking "Cancel", without any confirmation step.
+
+**Impact:**
+Users could accidentally cancel a session without having an opportunity to review or confirm the action.
+
+**Recommendation:**
+Add a confirmation message before cancelling a session, such as "Are you sure you want to cancel this session?"
+
