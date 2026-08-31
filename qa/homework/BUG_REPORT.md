@@ -169,10 +169,16 @@ The **Confirm** button should be disabled, or the system should display a valida
 ### Actual Result
 
 The system allows the user to confirm the rescheduling with no time slot selected.
+After confirming, the session displays an invalid date/time:
+
+NaN/NaN/NaN · NaN:00 AM
 
 **Evidence** 
 
 [Bug-05-reschedule-confirmed-without-time-slot.mov](./evidence/Bug-05-reschedule-confirmed-without-time-slot.mov)
+
+<img width="1048" height="162" alt="image" src="https://github.com/user-attachments/assets/7d2d0792-9998-4d23-86dc-eb7b594e3a28" />
+
 
 
 
