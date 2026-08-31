@@ -107,5 +107,5 @@ Make available time slots keyboard accessible and ensure they can receive focus 
 **Recommendation:**
 Provide a visible close button and consider allowing users to close the modal by clicking outside it or pressing the Escape key.
 
-<img width="1053" height="631" alt="image" src="https://github.com/user-attachments/assets/32253d54-cced-4502-a2d2-5054de61b6fe" />
+
 
