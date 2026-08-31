@@ -81,3 +81,18 @@ Display a clear empty-state message, such as "No coaches found matching your sea
 
 <img width="1128" height="377" alt="image" src="https://github.com/user-attachments/assets/d40fb1c0-f18c-41ef-805b-b8824fe8396f" />
 
+## UX-06 — Modals lack an easy way to close
+
+**Area:** Session management
+
+**Finding:**
+The modals do not provide an "X" button to close them and clicking outside the modal does not close it either.
+
+**Impact:**
+Users may not have an obvious or convenient way to exit the modal without completing or cancelling the current action.
+
+**Recommendation:**
+Provide a visible close button and consider allowing users to close the modal by clicking outside it or pressing the Escape key.
+
+<img width="1053" height="631" alt="image" src="https://github.com/user-attachments/assets/32253d54-cced-4502-a2d2-5054de61b6fe" />
+
