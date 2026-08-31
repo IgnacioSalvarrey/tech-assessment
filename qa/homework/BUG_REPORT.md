@@ -168,7 +168,7 @@ The **Confirm** button should be disabled, or the system should display a valida
 
 ### Actual Result
 
-The system allows the user to **confirm the rescheduling with no time slot selected**.
+The system allows the user to confirm the rescheduling with no time slot selected.
 
 
 
