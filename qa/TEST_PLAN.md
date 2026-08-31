@@ -55,3 +55,9 @@ make test SEED=2417
 ```
 
 The current suite contains **6 tests**, all passing successfully.
+
+## Additional Business Rule
+
+The application states that sessions can only be rescheduled up to 12 hours before they start.
+
+Due to the available assessment time, I did not manually validate this rule or cover it with an automated test.
