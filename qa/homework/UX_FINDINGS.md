@@ -91,6 +91,8 @@ The modals do not provide an "X" button to close them and clicking outside the m
 **Impact:**
 Users may not have an obvious or convenient way to exit the modal without completing or cancelling the current action.
 
+<img width="1053" height="631" alt="image" src="https://github.com/user-attachments/assets/32253d54-cced-4502-a2d2-5054de61b6fe" />
+
 ## UX-07 — Available time slots cannot be reached with Tab
 
 **Area:** Session booking
