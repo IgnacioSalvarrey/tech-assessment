@@ -141,4 +141,8 @@ After cancelling the session, the previously booked time slot should become avai
 
 After cancelling the session, the previously booked time slot remains unavailable and cannot be booked again.
 
+### Evidence
+
+[Bug-04-cancelled-session-slot-remains-unavailable.mov](./evidence/Bug-04-cancelled-session-slot-remains-unavailable.mov)
+
 
