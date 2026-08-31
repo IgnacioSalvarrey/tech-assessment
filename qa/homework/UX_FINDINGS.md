@@ -26,3 +26,14 @@ In Dashboard, the date is displayed as:
 
 <img width="1030" height="240" alt="image" src="https://github.com/user-attachments/assets/f1cab844-8f06-4c2d-b42b-bcd51558faee" />
 
+## UX-02 — Incorrect pluralization in coach results
+
+**Area:** Coach Search
+
+**Finding:**  
+When the search returns only one coach, the results counter displays "1 coaches found" instead of "1 coach found".
+
+**Evidence:**  
+
+<img width="1030" height="430" alt="image" src="https://github.com/user-attachments/assets/252dbea7-61ee-452d-aef2-42315e0d2a04" />
+
