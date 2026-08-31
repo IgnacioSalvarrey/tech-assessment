@@ -308,6 +308,32 @@ Only one session should be created. The application should prevent duplicate sub
 
 [Evidence: BUG-10-double-booking-confirm-click.mov](./evidence/BUG-10-double-booking-confirm-click.mov)
 
+## BUG-11 — Session duration changes after rescheduling
+
+**Severity:** High **Priority:** High
+
+### Description
+When a 60-minute session is rescheduled, its duration changes to 30 minutes.
+
+### Steps to reproduce
+
+1. Book a 60-minute session.
+2. Open **My Sessions**.
+3. Select the session and click **Reschedule**.
+4. Select a new available date and time.
+5. Save the changes.
+6. Review the session duration.
+
+### Expected result
+The session should keep its original 60-minute duration after being rescheduled.
+
+### Actual result
+The session duration changes from 60 minutes to 30 minutes after rescheduling.
+
+### Evidence
+
+
+
 
 
 
