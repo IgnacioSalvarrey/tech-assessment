@@ -41,5 +41,7 @@
 
 ### Evidence
 
-Video recording demonstrating the issue with build seed `2417`.
+### Evidence
+
+[BUG-01 — Pagination/filter issue](./evidence/BUG-01-pagination-filter.mov)
 
