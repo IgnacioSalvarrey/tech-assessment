@@ -205,6 +205,36 @@ The generated response can also differ between attempts when sending an empty me
 
 <img width="1733" height="902" alt="image" src="https://github.com/user-attachments/assets/193924ac-9bb5-4e19-ad7a-4bd381827038" />
 
+## BUG-07 — Sessions are not displayed in chronological order
+
+**Severity:** Low **Priority:** Low
+
+**Steps to reproduce:**
+
+1. Open **My sessions**.
+2. Have multiple sessions scheduled for the same date.
+3. Review the order in which the sessions are displayed.
+
+**Actual result:**
+Sessions can appear in an unexpected order, for example:
+
+* 8:00 AM
+* 6:00 PM
+* 2:00 PM
+
+**Expected result:**
+Sessions should be displayed in chronological order:
+
+* 8:00 AM
+* 2:00 PM
+* 6:00 PM
+
+**Evidence:**
+
+<img width="1082" height="357" alt="image" src="https://github.com/user-attachments/assets/ff40d642-5f18-4413-8aab-63fe791aa2e2" />
+
+
+
 
 
 
