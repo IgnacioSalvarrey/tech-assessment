@@ -235,7 +235,30 @@ Sessions can appear in an unexpected order, for example:
 
 <img width="1082" height="357" alt="image" src="https://github.com/user-attachments/assets/ff40d642-5f18-4413-8aab-63fe791aa2e2" />
 
+## BUG-08 — User can book two coaches at the same date and time
 
+**Severity:** Medium **Priority:** Medium
+
+**Description:**
+The application allows the same user to book sessions with two different coaches at the same date and time.
+
+**Steps to reproduce:**
+
+1. Book a session with a coach for an available date and time.
+2. Return to the Coaches page.
+3. Select a different coach.
+4. Select the same date and time as the previously booked session.
+5. Complete the booking.
+
+### Actual result
+The second session can be booked successfully even though the user already has another session scheduled for the same date and time.
+
+### Expected result
+The application should prevent the user from booking overlapping sessions or clearly indicate that the selected time conflicts with an existing session.
+
+### Evidence
+
+<img width="1010" height="222" alt="image" src="https://github.com/user-attachments/assets/09d4f819-a9f7-4b4c-89d3-615a10cd6832" />
 
 
 
