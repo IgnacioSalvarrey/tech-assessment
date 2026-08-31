@@ -170,5 +170,9 @@ The **Confirm** button should be disabled, or the system should display a valida
 
 The system allows the user to confirm the rescheduling with no time slot selected.
 
+**Evidence** 
+
+[Bug-05-reschedule-confirmed-without-time-slot.mov](./evidence/Bug-05-reschedule-confirmed-without-time-slot.mov)
+
 
 
