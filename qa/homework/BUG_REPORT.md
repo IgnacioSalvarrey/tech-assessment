@@ -45,3 +45,46 @@
 
 [BUG-01 — Pagination/filter issue](./evidence/BUG-01-pagination-filter.mov)
 
+
+## BUG-02 — Upcoming Sessions count is not updated after cancelling a session
+
+**Severity:** Medium
+**Priority:** Medium
+
+### Environment
+
+* Application: AceUp Console
+* Browser: Google Chrome 151.0.7922.175
+* OS: macOS
+* Build seed: `2417`
+
+### Preconditions
+
+* User has at least one upcoming session.
+
+### Steps to Reproduce
+
+1. Navigate to the Dashboard.
+2. Verify that the **Upcoming Sessions** count reflects the existing upcoming session(s).
+3. Navigate to **My Sessions**.
+4. Cancel the upcoming session.
+5. Return to the Dashboard.
+6. Refresh the page.
+7. Observe the **Upcoming Sessions** count.
+
+### Expected Result
+
+The **Upcoming Sessions** count should be updated to reflect the current number of active upcoming sessions.
+
+If all upcoming sessions have been cancelled, the count should display **0**.
+
+### Actual Result
+
+After cancelling the only upcoming session, the Dashboard continues to display **1 Upcoming Session** even after refreshing the page.
+
+When a new upcoming session is created, the Dashboard correctly displays **1 Upcoming Session**, indicating that the count does not accurately reflect the current session state after cancellation.
+
+### Evidence
+
+
+
