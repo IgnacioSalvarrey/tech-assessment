@@ -332,7 +332,7 @@ The session duration changes from 60 minutes to 30 minutes after rescheduling.
 
 ### Evidence
 
-
+[Evidence: BUG-11-duration-changes-after-rescheduling.mov](./evidence/BUG-11-duration-changes-after-rescheduling.mov)
 
 
 
