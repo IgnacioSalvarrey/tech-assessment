@@ -116,3 +116,29 @@ This issue occurs both when booking a new session and when editing an existing s
 ### Evidence
 
 [Bug-03-selected-time-does-not-match-displayed-time.mov](./evidence/Bug-03-selected-time-does-not-match-displayed-time.mov)
+
+## Bug #4 – Cancelled session slot remains unavailable
+
+**Severity:** Medium
+**Priority:** High
+
+### Steps to Reproduce
+
+1. Click on **Coaches**.
+2. Select a coach.
+3. Select a specific date and time slot.
+4. Book the session.
+5. Go to **My Sessions**.
+6. Cancel the booked session.
+7. Return to the coach's available time slots.
+8. Select the same date and check the previously booked time slot.
+
+### Expected Result
+
+After cancelling the session, the previously booked time slot should become available again so that it can be booked by the user or another user.
+
+### Actual Result
+
+After cancelling the session, the previously booked time slot remains unavailable and cannot be booked again.
+
+
