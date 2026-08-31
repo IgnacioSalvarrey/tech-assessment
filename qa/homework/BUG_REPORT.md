@@ -89,3 +89,30 @@ When a new upcoming session is created, the Dashboard correctly displays **1 Upc
 
 [BUG-02 — Upcoming Sessions count](./evidence/BUG-02-upcoming-sessions.mov)
 
+## Bug #3 – Selected booking time does not match displayed session time
+
+**Severity:** Medium
+**Priority:** Medium
+
+### Steps to Reproduce
+
+1. Click on **Coaches**.
+2. Select a coach with available slots.
+3. Select a date and time slot.
+4. Book the session.
+5. Go to **My Sessions**.
+6. Check the scheduled time of the newly created session.
+
+### Expected Result
+
+The session should display the **same time that was selected during the booking process**.
+
+### Actual Result
+
+The time displayed for the booked session **does not match the time selected by the user**.
+
+This issue occurs both when booking a new session and when editing an existing session.
+
+### Evidence
+
+
