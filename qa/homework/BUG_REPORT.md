@@ -306,7 +306,7 @@ Only one session should be created. The application should prevent duplicate sub
 
 ### Evidence
 
-
+[Evidence: BUG-10-double-booking-confirm-click.mov](./evidence/BUG-10-double-booking-confirm-click.mov)
 
 
 
