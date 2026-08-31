@@ -210,17 +210,19 @@ The generated response can also differ between attempts when sending an empty me
 Severity: Low
 Priority: Low
 
-Steps to Reproduce
-Go to My Sessions.
-Observe the date format displayed for an upcoming session.
-Go to Dashboard.
-Observe the date format displayed for the next session.
-Compare the date formats across both pages.
-Expected Result
+### Steps to Reproduce
+1. Click on  My Sessions.
+2. Observe the date format displayed for an upcoming session.
+3. Click on Dashboard.
+4. Observe the date format displayed for the next session.
+5. Compare the date formats across both pages.
+
+   
+### Expected Result
 
 The application should use a consistent date format across all pages and sections.
 
-Actual Result
+### Actual Result
 
 The application uses different date formats across pages.
 
