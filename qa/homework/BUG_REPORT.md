@@ -115,4 +115,4 @@ This issue occurs both when booking a new session and when editing an existing s
 
 ### Evidence
 
-
+[Bug-03-selected-time-does-not-match-displayed-time.mov](./evidence/Bug-03-selected-time-does-not-match-displayed-time.mov)
