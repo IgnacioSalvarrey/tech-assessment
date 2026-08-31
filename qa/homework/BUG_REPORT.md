@@ -205,4 +205,37 @@ The generated response can also differ between attempts when sending an empty me
 
 <img width="1733" height="902" alt="image" src="https://github.com/user-attachments/assets/193924ac-9bb5-4e19-ad7a-4bd381827038" />
 
+Bug #7 – Inconsistent date format across pages
+
+Severity: Low
+Priority: Low
+
+Steps to Reproduce
+Go to My Sessions.
+Observe the date format displayed for an upcoming session.
+Go to Dashboard.
+Observe the date format displayed for the next session.
+Compare the date formats across both pages.
+Expected Result
+
+The application should use a consistent date format across all pages and sections.
+
+Actual Result
+
+The application uses different date formats across pages.
+
+In My Sessions, the date is displayed as:
+
+01/09/2026 · 5:00 PM
+<img width="1030" height="251" alt="image" src="https://github.com/user-attachments/assets/9b80eac9-3352-4947-8d46-bf8796bf1819" />
+
+
+In Dashboard, the date is displayed as:
+
+09/01/2026 at 6:00 PM
+
+<img width="1030" height="240" alt="image" src="https://github.com/user-attachments/assets/ac8a22f2-e1d9-4a8d-9a52-9ceba3d7180b" />
+
+
+
 
