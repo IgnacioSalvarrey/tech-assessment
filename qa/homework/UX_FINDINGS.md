@@ -66,3 +66,17 @@ Users could accidentally cancel a session without having an opportunity to revie
 **Recommendation:**
 Add a confirmation message before cancelling a session, such as "Are you sure you want to cancel this session?"
 
+## UX-05 — No feedback when there are no search results
+
+**Area:** Coach search
+
+**Finding:**
+When a search or filter returns no coaches, the application does not provide a clear message explaining that no results were found.
+
+**Impact:**
+Users may be unsure whether the search was processed correctly or whether there are simply no coaches matching their criteria.
+
+**Recommendation:**
+Display a clear empty-state message, such as "No coaches found matching your search. Try adjusting your filters."
+
+
