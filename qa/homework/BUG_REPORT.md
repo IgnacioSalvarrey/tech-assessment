@@ -215,6 +215,13 @@ The generated response can also differ between attempts when sending an empty me
 2. Have multiple sessions scheduled for the same date.
 3. Review the order in which the sessions are displayed.
 
+**Expected result:**
+Sessions should be displayed in chronological order:
+
+* 8:00 AM
+* 2:00 PM
+* 6:00 PM
+
 **Actual result:**
 Sessions can appear in an unexpected order, for example:
 
@@ -222,12 +229,7 @@ Sessions can appear in an unexpected order, for example:
 * 6:00 PM
 * 2:00 PM
 
-**Expected result:**
-Sessions should be displayed in chronological order:
 
-* 8:00 AM
-* 2:00 PM
-* 6:00 PM
 
 **Evidence:**
 
