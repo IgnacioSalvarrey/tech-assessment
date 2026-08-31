@@ -145,4 +145,30 @@ After cancelling the session, the previously booked time slot remains unavailabl
 
 [Bug-04-cancelled-session-slot-remains-unavailable.mov](./evidence/Bug-04-cancelled-session-slot-remains-unavailable.mov)
 
+## Bug #5 – Rescheduling can be confirmed without selecting a new time slot
+
+**Severity:** High
+**Priority:** High
+
+### Steps to Reproduce
+
+1. Click on **Coaches**.
+2. Select a coach.
+3. Book the available time slots until there are no remaining slots for that coach on that day.
+4. Go to **My Sessions**.
+5. Select one of the booked sessions.
+6. Click on **Reschedule**.
+7. Select the same day.
+8. Observe that there are no available time slots.
+9. Click **Confirm** without selecting a new time slot.
+
+### Expected Result
+
+The **Confirm** button should be disabled, or the system should display a validation message indicating that a new time slot must be selected before confirming the reschedule.
+
+### Actual Result
+
+The system allows the user to **confirm the rescheduling with no time slot selected**.
+
+
 
