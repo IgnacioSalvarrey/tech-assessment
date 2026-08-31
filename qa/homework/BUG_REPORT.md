@@ -205,7 +205,7 @@ The generated response can also differ between attempts when sending an empty me
 
 <img width="1733" height="902" alt="image" src="https://github.com/user-attachments/assets/193924ac-9bb5-4e19-ad7a-4bd381827038" />
 
-##Bug #7 – Inconsistent date format across pages
+## Bug #7 – Inconsistent date format across pages
 
 Severity: Low
 Priority: Low
