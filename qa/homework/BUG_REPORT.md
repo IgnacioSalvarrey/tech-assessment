@@ -285,7 +285,7 @@ The complete text entered by the user should be displayed in the session details
 
 ## BUG-10 — Double booking when confirming a session twice
 
-**Severity:** High **Priority:** High
+**Severity:** Critical **Priority:** High
 
 **Description:**
 Clicking the "Confirm booking" button twice quickly can create two sessions for the same booking.
