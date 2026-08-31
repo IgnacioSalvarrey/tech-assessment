@@ -41,8 +41,6 @@
 
 ### Evidence
 
-### Evidence
-
 [BUG-01 — Pagination/filter issue](./evidence/BUG-01-pagination-filter.mov)
 
 
