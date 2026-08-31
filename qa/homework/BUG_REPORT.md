@@ -1,6 +1,6 @@
 # Bug Report
 
-## BUG-01 — Ev
+## BUG-01 — Coach Directory pagination does not respect active filters
 
 **Severity:** Medium
 **Priority:** Medium
