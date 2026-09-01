@@ -2,7 +2,7 @@
 
 describe('Regression tests', () => {
 
-  it('BUG-08 - prevents booking an unavailable time slot', () => {
+  it('Regression - prevents selecting an unavailable time slot', () => {
     cy.visitApp('/booking.html', { coach: 'c3' });
 
     cy.get('[data-testid="booking-coach"]')
@@ -16,7 +16,7 @@ describe('Regression tests', () => {
   });
 
 
-  it('BUG-11 - booking confirmation creates a confirmed session', () => {
+  it('Regression - booking confirmation creates a confirmed 60-minute session', () => {
     cy.visitApp('/booking.html', { coach: 'c3' });
 
     cy.get('[data-testid="booking-coach"]')
