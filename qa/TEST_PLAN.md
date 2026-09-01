@@ -54,7 +54,7 @@ To run the complete suite:
 make test SEED=2417
 ```
 
-The current suite contains **7 tests**, all passing successfully.
+The current suite contains **9 tests**, all passing successfully.
 
 ## Additional Business Rule
 
